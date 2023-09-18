@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 import asf_search
 from datetime import datetime, timedelta
@@ -10,6 +11,7 @@ import io
 ''' Worst backend written in my life'''
 
 app = Flask(__name__)
+CORS(app) 
 # model = tf.keras.models.load_model('model_path')
 
 def get_landslide_images(latitude, longitude):
@@ -54,7 +56,7 @@ def getImages(latitude = 47.2160, longitude = 9.8160):
             pass
     return len(image_urls)
 
-@app.route("/api/submit")
+@app.route("/api/submit", methods=['POST'])
 def predict():
     # data = request.get_json()
     # latitude = float(data['latitude'])
