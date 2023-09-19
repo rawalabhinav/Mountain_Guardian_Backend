@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 
 import asf_search
@@ -60,14 +60,14 @@ def getResult(images):
 
 @app.route("/api/submit", methods=['POST'])
 def predict():
-    # data = request.get_json()
-    # latitude = float(data['latitude'])
-    # longitude = float(data['longitude'])
+    data = request.get_json()
+    latitude = float(data['latitude'])
+    longitude = float(data['longitude'])
 
     # images = getImages(latitude, longitude)
     # result = getResult(images)
 
-    result = 71.32
+    result = (latitude + longitude) / 2
     return {"result": result}
 
 if __name__ == '__main__':
