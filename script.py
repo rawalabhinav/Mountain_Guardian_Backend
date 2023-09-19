@@ -33,9 +33,6 @@ image_response = requests.get(image_urls[0])
 with open(f"./static/{latitude}_{longitude}.jpg", "wb") as f:
     f.write(image_response.content)
 
-
-image = load_img(f"./static/{latitude}_{longitude}.jpg", target_size = (512, 512))
+image = load_img("/Users/abhinavrawal/Desktop/SIH/backend/static/12.121_6.32_1.jpg", target_size = (512, 512))
 image = img_to_array(image)
 image = np.expand_dims(image, axis = 0)
-# result = model.predict(image)
-print(image)

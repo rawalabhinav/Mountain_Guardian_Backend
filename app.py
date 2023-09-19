@@ -50,12 +50,20 @@ def getImages(latitude = 47.2160, longitude = 9.8160):
 
 def getResult(images):
     result = 0
+
+    if (len(images) == 0):
+        return 0
+    
     for path in images:
-        image = load_img(path, target_size = (224, 224))
+        image = load_img(path, target_size = (256, 256, 3))
         image = img_to_array(image)
         image = np.expand_dims(image, axis = 0)
-        result += model.predict(image)
 
+        y = model.signatures['serving_default'](tf.constant(image))['dense_1']
+        print(y, "hi")
+        prediction = y.numpy()[0][0]
+        result += prediction
+    
     return result / len(images)
 
 @app.route("/api/submit", methods=['POST'])
@@ -64,10 +72,9 @@ def predict():
     latitude = float(data['latitude'])
     longitude = float(data['longitude'])
 
-    # images = getImages(latitude, longitude)
-    # result = getResult(images)
+    images = getImages(latitude, longitude)
+    result = round(100 * getResult(images), 2)
 
-    result = (latitude + longitude) / 2
     return {"result": result}
 
 if __name__ == '__main__':
